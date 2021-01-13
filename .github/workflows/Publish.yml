@@ -1,0 +1,34 @@
+
+name : publish
+
+on :
+  push :
+    branches : [ master ]
+
+jobs :
+
+  Full :
+    if : "startsWith( github.event.head_commit.message, 'version' )"
+    runs-on : ${{ matrix.os }}
+    strategy :
+      fail-fast : false
+      matrix :
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
+        ## node-version : [ 10.x, 12.x, 13.x, 14.x, 15.x ]
+        node-version : [ 10.x, 12.9.1, 13.x, 14.x, 15.x ]
+    steps :
+    - run : git config --global core.autocrlf input
+    - run : git config --global user.email "testing@testing.com"
+    - run : git config --global user.name "Testing"
+    - uses : actions/checkout@v2
+      with :
+        fetch-depth: 2
+    - name : ${{ matrix.node-version }}
+      uses : actions/setup-node@v1
+      with :
+        node-version : ${{ matrix.node-version }}
+    - run : npm i
+    - name : npm test
+      run : npm test
+      env :
+        WTOOLS_BOT_TOKEN : ${{ secrets.WTOOLS_BOT_TOKEN }}
