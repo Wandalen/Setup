@@ -1,6 +1,6 @@
-
-NAME=%1
-EMAIL=%2
+@echo off
+set NAME=%1
+set EMAIL=%2
 
 git config --global core.autocrlf false
 git config --global core.ignorecase false
