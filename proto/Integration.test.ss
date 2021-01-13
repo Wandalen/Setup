@@ -1,4 +1,4 @@
-( function _Integration_test_s_()
+( function _Integration_test_ss_()
 {
 
 'use strict';
@@ -13,7 +13,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _testerGlobal_.wTools;
+let _ = _globals_.testing.wTools;
 let fileProvider = _.fileProvider;
 let path = fileProvider.path;
 
@@ -40,9 +40,14 @@ function samples( test )
 
   let found = fileProvider.filesFind
   ({
-    filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
+    // filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
+    filePath : path.join( sampleDir, '**/*.(s|ss)' ),
     withStem : 0,
     withDirs : 0,
+    filter :
+    {
+      maskTransientDirectory : { excludeAny : [ /asset/, /out/ ] }
+    },
     mode : 'distinct',
     mandatory : 0,
   });
@@ -51,7 +56,7 @@ function samples( test )
 
   for( let i = 0 ; i < found.length ; i++ )
   {
-    if( _.longHas( found[ i ].exts, 'browser' ) )
+    if( _.longHasAny( found[ i ].exts, [ 'browser', 'manual', 'experiment' ] ) )
     continue;
 
     let startTime;
@@ -87,7 +92,7 @@ function samples( test )
         return null;
         test.description = 'have no uncaught errors';
         test.identical( _.strCount( op.output, 'ncaught' ), 0 );
-        test.identical( _.strCount( op.output, 'rror' ), 0 );
+        test.identical( _.strCount( op.output, 'uncaught error' ), 0 );
         test.description = 'have some output';
         test.ge( op.output.split( '\n' ).length, 1 );
         test.ge( op.output.length, 3 );
@@ -101,6 +106,8 @@ function samples( test )
   return ready;
 }
 
+samples.rapidity = -1;
+
 //
 
 function eslint( test )
@@ -112,15 +119,37 @@ function eslint( test )
   let sampleDir = path.join( rootPath, 'sample' );
   let ready = new _.Consequence().take( null );
 
-  if( _.process.insideTestContainer() && process.platform !== 'linux' )
-  return test.is( true );
+  // if( _.process.insideTestContainer() && process.platform !== 'linux' )
+  // return test.true( true );
+
+  if( process.platform !== 'linux' )
+  return test.true( true );
 
   let start = _.process.starter
   ({
     execPath : eslint,
     mode : 'fork',
     currentPath : rootPath,
-    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json' ],
+    args :
+    [
+      '-c', '.eslintrc.yml',
+      '--ext', '.js,.s,.ss',
+      '--ignore-pattern', '*.c',
+      '--ignore-pattern', '*.ts',
+      '--ignore-pattern', '*.html',
+      '--ignore-pattern', '*.txt',
+      '--ignore-pattern', '*.png',
+      '--ignore-pattern', '*.json',
+      '--ignore-pattern', '*.yml',
+      '--ignore-pattern', '*.yaml',
+      '--ignore-pattern', '*.md',
+      '--ignore-pattern', '*.xml',
+      '--ignore-pattern', '*.css',
+      '--ignore-pattern', '_asset',
+      '--ignore-pattern', 'out',
+      '--ignore-pattern', '*.tgs',
+      '--quiet'
+    ],
     throwingExitCode : 0,
     outputCollecting : 1,
   })
@@ -161,17 +190,17 @@ function eslint( test )
   return ready;
 }
 
-eslint.rapidity = -1;
+eslint.rapidity = -2;
 
 // --
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Integration',
-  routineTimeOut : 500000,
+  routineTimeOut : 1500000,
   silencing : 0,
 
   tests :
