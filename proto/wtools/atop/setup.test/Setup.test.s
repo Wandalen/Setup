@@ -62,25 +62,18 @@ function gitConfigResetGlobal( test )
   });
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../GitConfigReset.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../GitConfigResetGlobal.${ ext }` );
 
   /* */
 
   begin();
-  a.shell( 'git config --global user.name "user2"' );
   a.shell( `${ scriptPath } user user@domain.com` );
-  a.ready.then( ( op ) =>
-  {
-    debugger;
-    return null;
-  });
   a.shell( 'git config --global --list' )
   .then( ( op ) =>
   {
-    debugger;
+    test.case = 'almost empty global config - user name and email';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
     test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
@@ -88,6 +81,109 @@ function gitConfigResetGlobal( test )
     test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
     test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 1 );
     test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( 'git config --global user.name "user2"' );
+  a.shell( `${ scriptPath } user user@domain.com` );
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.case = 'global config with field - user name and email';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
+    test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( `${ scriptPath } user` );
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.case = 'almost empty global config - only user name';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
+    test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( 'git config --global user.name "user2"' );
+  a.shell( `${ scriptPath } user` );
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.case = 'global config with field - only user name';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
+    test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( `${ scriptPath }` );
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.case = 'almost empty global config - without user name and email';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 0 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
+    test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 0 );
+    test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 0 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( 'git config --global user.name "user2"' );
+  a.shell( `${ scriptPath }` );
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.case = 'global config with field - only user name';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user.name=user2' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
+    test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
+    test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 0 );
+    test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 0 );
     return null;
   });
 
@@ -113,10 +209,11 @@ function gitConfigResetGlobal( test )
 
   function begin()
   {
-    a.ready.then( () => a.fileProvider.filesDelete( a.abs( '.' ) ));
-    a.ready.then( () => { a.fileProvider.dirMake( a.abs( '.' ) ); return null });
-    a.shell( `git init` );
-    return a.ready;
+    return a.ready.then( () =>
+    {
+      a.fileProvider.fileWrite( globalConfigPath, '' );
+      return null;
+    });
   }
 }
 
