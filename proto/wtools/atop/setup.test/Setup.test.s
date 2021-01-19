@@ -62,7 +62,7 @@ function gitConfigResetGlobal( test )
   });
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../GitConfigResetGlobal.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../GitConfigGlobalSetup.${ ext }` );
 
   /* */
 
