@@ -255,30 +255,26 @@ function nvmNjsInstallPosix( test )
     test.case = 'install nvm and lates lts nodejs';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '=> Downloading nvm from git to' ), 1 );
-    test.identical( _.strCount( op.output, '=> Initialized empty Git repository in' ), 1 );
     test.identical( _.strCount( op.output, '=> Compressing and cleaning up git repository' ), 1 );
     test.identical( _.strCount( op.output, '=> Appending nvm source string to' ), 1 );
     test.identical( _.strCount( op.output, '=> Appending bash_completion source string to' ), 1 );
     test.identical( _.strCount( op.output, 'Installing latest LTS version' ), 1 );
-    test.identical( _.strCount( op.output, 'Attempting to upgrade to the latest working version of npm' ), 1 );
-    var exp = '* Installing latest `npm`; if this does not work on your node version, please report a bug!';
-    test.identical( _.strCount( op.output, exp ), 1 );
     return null;
   });
 
-  // a.shell( 'nvm list' )
-  // .then( ( op ) =>
-  // {
-  //   test.case = 'check nvm command';
-  //   test.identical( op.exitCode, 0 );
-  //   test.identical( _.strCount( op.output, 'lts/argon -> v4.9.1' ), 1 );
-  //   test.identical( _.strCount( op.output, 'lts/boron -> v6.17.1' ), 1 );
-  //   test.identical( _.strCount( op.output, 'lts/carbon -> v8.17.0' ), 1 );
-  //   test.identical( _.strCount( op.output, 'lts/dubnium -> v10.23.1' ), 1 );
-  //   test.identical( _.strCount( op.output, 'lts/erbium -> v12.20.1' ), 1 );
-  //   test.identical( _.strCount( op.output, 'lts/fermium -> v14.15.4' ), 1 );
-  //   return null;
-  // });
+  a.shell( 'source $HOME/.nvm/nvm.sh && nvm list' )
+  .then( ( op ) =>
+  {
+    test.case = 'check nvm command';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'lts/argon -> v4.9.1' ), 1 );
+    test.identical( _.strCount( op.output, 'lts/boron -> v6.17.1' ), 1 );
+    test.identical( _.strCount( op.output, 'lts/carbon -> v8.17.0' ), 1 );
+    test.identical( _.strCount( op.output, 'lts/dubnium -> v10.23.1' ), 1 );
+    test.identical( _.strCount( op.output, 'lts/erbium -> v12.20.1' ), 1 );
+    test.identical( _.strCount( op.output, 'lts/fermium -> v14.15.4' ), 1 );
+    return null;
+  });
 
   a.shell( 'node --version' )
   .then( ( op ) =>
