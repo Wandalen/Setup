@@ -240,7 +240,7 @@ function nvmNjsInstallPosix( test )
     {
       originalNvm = true;
       a.fileProvider.fileCopy({ srcPath : a.abs( homePath, '.bashrc' ), dstPath : a.abs( homePath, 'bashrc' ) });
-      a.fileProvider.fileRename({ srcPath : a.abs( homePath, '.nvm' ), dstPath : a.abs( homePath, 'nvm' }) );
+      a.fileProvider.fileRename({ srcPath : a.abs( homePath, '.nvm' ), dstPath : a.abs( homePath, 'nvm' ) });
     }
     return null;
   });
