@@ -1,12 +1,15 @@
 @echo off
 
-where choco
-if %errorlevel% neq 0
+where choco.exe
+if %ERRORLEVEL% NEQ 0
 echo "Program Chocolatey not found."
-set /P answer="Do you want to install Chocholate now? (y/n)"
+set /P ANSWER="Do you want to install Chocolatey now? (y/n)"
 
-if  %answer% == "y" || %answer% == "Y" (
-  runas /user:Administator "cmd.exe /C @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin""
+for /F %i in ('whoami') do
+set USERNAME=%i
+
+if  %ANSWER% == "y" OR %ANSWER% == "Y" (
+  runas /user:%USERNAME% "cmd.exe /C @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin""
 )
 
 set VERSION=%1
