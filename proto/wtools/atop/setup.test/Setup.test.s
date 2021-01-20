@@ -249,7 +249,7 @@ function nvmNjsInstallPosix( test )
 
   /* */
 
-  a.shell({ execPath : `${ scriptPath }`, timeOut : 30000 })
+  a.shell({ execPath : `${ scriptPath }`, timeOut : 60000 })
   .then( ( op ) =>
   {
     test.case = 'install nvm and lates lts nodejs';
@@ -303,7 +303,7 @@ function nvmNjsInstallPosix( test )
   return a.ready;
 }
 
-nvmNjsInstallPosix.timeOut = 60000;
+nvmNjsInstallPosix.timeOut = 90000;
 
 // --
 // declaration
