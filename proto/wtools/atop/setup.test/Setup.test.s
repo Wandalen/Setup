@@ -256,8 +256,11 @@ function nvmNjsInstallPosix( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '=> Downloading nvm from git to' ), 1 );
     test.identical( _.strCount( op.output, '=> Compressing and cleaning up git repository' ), 1 );
-    test.identical( _.strCount( op.output, '=> Appending nvm source string to' ), 1 );
-    test.identical( _.strCount( op.output, '=> Appending bash_completion source string to' ), 1 );
+    if( process.platform !== 'darwin' )
+    {
+      test.identical( _.strCount( op.output, '=> Appending nvm source string to' ), 1 );
+      test.identical( _.strCount( op.output, '=> Appending bash_completion source string to' ), 1 );
+    }
     test.identical( _.strCount( op.output, 'Installing latest LTS version' ), 1 );
     return null;
   });
