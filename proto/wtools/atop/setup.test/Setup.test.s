@@ -236,7 +236,7 @@ function nvmNjsInstallPosix( test )
 
   /* */
 
-  a.shell( `${ scriptPath }` );
+  a.shell( `${ scriptPath }` )
   .then( ( op ) =>
   {
     test.case = 'install nvm and lates lts nodejs';
