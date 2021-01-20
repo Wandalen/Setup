@@ -232,6 +232,19 @@ function nvmNjsInstallPosix( test )
     return;
   }
 
+  let homePath = process.env.HOME;
+  let originalNvm = false;
+  a.ready.then( () =>
+  {
+    if( a.fileProvider.fileExists( a.abs( process.env.HOME, '.nvm' ) ) )
+    {
+      originalNvm = true;
+      a.fileProvider.fileCopy({ srcPath : a.abs( homePath, '.bashrc' ), dstPath : a.abs( homePath, 'bashrc' ) });
+      a.fileProvider.fileRename({ srcPath : a.abs( homePath, '.nvm' ), dstPath : a.abs( homePath, 'nvm' }) );
+    }
+    return null;
+  });
+
   const scriptPath = a.path.join( __dirname, `../../../NvmNjsInstall.sh` );
 
   /* */
@@ -282,6 +295,23 @@ function nvmNjsInstallPosix( test )
     test.case = 'check npm package';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, /\d\.\d\d\.\d\d/ ), 1 );
+    return null;
+  });
+
+  /* */
+
+  a.ready.finally( ( err, arg ) =>
+  {
+    if( originalNvm )
+    {
+      a.fileProvider.filesDelete( a.abs( homePath, '.nmv' ) );
+      a.fileProvider.fileRename({ srcPath : a.abs( homePath, 'nvm' ), dstPath : a.abs( homePath, '.nvm' ) });
+      a.fileProvider.fileDelete( a.abs( homePath, '.bashrc' ) );
+      a.fileProvider.fileRename({ srcPath : a.abs( homePath, 'bashrc' ), dstPath : a.abs( homePath, '.bashrc' ) });
+    }
+
+    if( err )
+    throw _.err( err );
     return null;
   });
 
