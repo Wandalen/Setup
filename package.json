@@ -20,7 +20,7 @@
     "index.js"
   ],
   "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3 v:7",
+    "test": "wtest .run 'proto/**' rapidity:-3",
     "docgen": "wdocgen proto"
   },
   "repository": {

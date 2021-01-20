@@ -279,7 +279,7 @@ function nvmNjsInstallPosix( test )
   {
     test.case = 'check npm package';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /\d\.\d\d\.\d\d/ ), 1 );
+    test.identical( _.strCount( op.output, /\d\.\d\d\.\d/ ), 1 );
     return null;
   });
 
