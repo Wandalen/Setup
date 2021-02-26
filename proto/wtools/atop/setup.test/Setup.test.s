@@ -324,15 +324,71 @@ function nvmNjsInstallWindows( test )
 
   /* */
 
-  a.shell({ execPath : `${ scriptPath }` })
+  let chocoExists = true;
+  a.shellNonThrowing( 'choco --version' );
+  a.ready.then( ( op ) =>
+  {
+    if( op.exitCode !== 0 )
+    chocoExists = false;
+    return chocoExists;
+  });
+
+  let nvmExists = true;
+  a.shellNonThrowing( 'nvm --version' );
+  a.ready.then( ( op ) =>
+  {
+    if( op.exitCode !== 0 )
+    nvmExists = false;
+    return nvmExists;
+  });
+
+  /* */
+
+  a.shell({ execPath : `${ scriptPath }`, timeOut : 60000 })
   .then( ( op ) =>
   {
-    test.case = 'choco does not exists';
     test.identical( op.exitCode, 0 );
-    var exp = 'Please, install the utility Chocolatey and then run the script';
-    test.identical( _.strCount( op.output, exp ), 1 );
-    var exp = 'Run next command in administrative shell to install utility :';
-    test.identical( _.strCount( op.output, exp ), 1 );
+
+    if( chocoExists === false )
+    {
+      test.case = 'choco does not exists';
+      var exp = 'Please, install the utility Chocolatey and then run the script';
+      test.identical( _.strCount( op.output, exp ), 1 );
+      var exp = 'Run next command in administrative shell to install utility :';
+      test.identical( _.strCount( op.output, exp ), 1 );
+    }
+
+    if( nvmExists === false )
+    {
+      test.case = 'nvm does not exist';
+      test.identical( _.strCount( op.output, 'nvm package files install completed' ), 1 );
+      test.identical( _.strCount( op.output, 'The install of nvm was successful' ), 1 );
+      test.identical( _.strCount( op.output, 'Downloading npm version' ), 1 );
+      test.identical( _.strCount( op.output, 'Installation complete' ), 1 );
+      test.identical( _.strCount( op.output, 'nvm use 14.15.4' ), 1 );
+    }
+    return null;
+  });
+
+  a.shellNonThrowing( 'node --version' );
+  a.ready.then( ( op ) =>
+  {
+    if( chocoExists === false )
+    return null;
+    test.case = 'check node program';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /v\d\d\.\d\d\.\d/ ), 1 );
+    return null;
+  });
+
+  a.shellNonThrowing( 'npm --version' )
+  .then( ( op ) =>
+  {
+    if( chocoExists === false )
+    return null;
+    test.case = 'check npm package';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /\d\.\d\d\.\d/ ), 1 );
     return null;
   });
 
