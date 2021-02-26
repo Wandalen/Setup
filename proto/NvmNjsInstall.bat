@@ -9,11 +9,19 @@ if %ERRORLEVEL% NEQ 0 (
 
 set VERSION=%1
 
-choco install nvm -y
+where nvm.exe
+if %ERRORLEVEL% NEQ 0 (
+  choco install nvm -y
+)
 
 if "%VERSION%" == "" (
   set VERSION=14.15.4
 )
 
-nvm install 14.15.4
+where nvm.exe
+if %ERRORLEVEL% NEQ 0 (
+  echo nvm utility not recognized. Please, rerun script.
+  exit /b
+)
 
+nvm install %VERSION%

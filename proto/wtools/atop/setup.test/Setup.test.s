@@ -344,13 +344,12 @@ function nvmNjsInstallWindows( test )
 
   /* */
 
-  a.shell({ execPath : `${ scriptPath }`, timeOut : 100000 })
+  a.shellNonThrowing({ execPath : `${ scriptPath }`, timeOut : 200000 })
   .then( ( op ) =>
   {
-    test.identical( op.exitCode, 0 );
-
     if( chocoExists === false )
     {
+      test.identical( op.exitCode, 0 );
       test.case = 'choco does not exists';
       var exp = 'Please, install the utility Chocolatey and then run the script';
       test.identical( _.strCount( op.output, exp ), 1 );
@@ -363,9 +362,6 @@ function nvmNjsInstallWindows( test )
       test.case = 'nvm does not exist';
       test.identical( _.strCount( op.output, 'nvm package files install completed' ), 1 );
       test.identical( _.strCount( op.output, 'The install of nvm was successful' ), 1 );
-      test.identical( _.strCount( op.output, 'Downloading npm version' ), 1 );
-      test.identical( _.strCount( op.output, 'Installation complete' ), 1 );
-      test.identical( _.strCount( op.output, 'nvm use 14.15.4' ), 1 );
     }
     return null;
   });
@@ -373,7 +369,7 @@ function nvmNjsInstallWindows( test )
   a.shellNonThrowing( 'node --version' );
   a.ready.then( ( op ) =>
   {
-    if( chocoExists === false )
+    if( chocoExists === false || op.exitCode !== 0 )
     return null;
     test.case = 'check node program';
     test.identical( op.exitCode, 0 );
@@ -384,7 +380,7 @@ function nvmNjsInstallWindows( test )
   a.shellNonThrowing( 'npm --version' )
   .then( ( op ) =>
   {
-    if( chocoExists === false )
+    if( chocoExists === false || op.exitCode !== 0 )
     return null;
     test.case = 'check npm package';
     test.identical( op.exitCode, 0 );
@@ -397,7 +393,7 @@ function nvmNjsInstallWindows( test )
   return a.ready;
 }
 
-nvmNjsInstallWindows.timeOut = 150000;
+nvmNjsInstallWindows.timeOut = 300000;
 
 // --
 // declaration
