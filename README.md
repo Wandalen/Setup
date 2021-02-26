@@ -33,5 +33,5 @@ The scripts accept single parameter - version of NodeJS to install.
 Example :
 
 ```
-./proto/NvmNjsInstall.bat.sh 14.15.4
+./proto/NvmNjsInstall.sh 14.15.4
 ```
