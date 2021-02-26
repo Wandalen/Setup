@@ -344,7 +344,7 @@ function nvmNjsInstallWindows( test )
 
   /* */
 
-  a.shell({ execPath : `${ scriptPath }`, timeOut : 60000 })
+  a.shell({ execPath : `${ scriptPath }`, timeOut : 100000 })
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -397,7 +397,7 @@ function nvmNjsInstallWindows( test )
   return a.ready;
 }
 
-nvmNjsInstallWindows.timeOut = 90000;
+nvmNjsInstallWindows.timeOut = 150000;
 
 // --
 // declaration
