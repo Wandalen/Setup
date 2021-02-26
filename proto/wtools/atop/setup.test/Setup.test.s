@@ -397,6 +397,8 @@ function nvmNjsInstallWindows( test )
   return a.ready;
 }
 
+nvmNjsInstallWindows.timeOut = 90000;
+
 // --
 // declaration
 // --
