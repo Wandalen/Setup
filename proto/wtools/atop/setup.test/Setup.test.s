@@ -305,6 +305,42 @@ function nvmNjsInstallPosix( test )
 
 nvmNjsInstallPosix.timeOut = 90000;
 
+//
+
+function nvmNjsInstallWindows( test )
+{
+  let context = this;
+  let a = test.assetFor( 'basic' );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+
+  /* install nvm and njs only in test container */
+  if( process.platform !== 'win32' || !_.process.insideTestContainer() )
+  {
+    test.true( true );
+    return;
+  }
+
+  const scriptPath = a.path.join( __dirname, `../../../NvmNjsInstall.sh` );
+
+  /* */
+
+  a.shell({ execPath : `${ scriptPath }` })
+  .then( ( op ) =>
+  {
+    test.case = 'choco does not exists';
+    test.identical( op.exitCode, 0 );
+    var exp = 'Please, install the utility Chocolatey and then run the script';
+    test.identical( _.strCount( op.output, exp ), 1 );
+    var exp = 'Run next command in administrative shell to install utility :';
+    test.identical( _.strCount( op.output, exp ), 1 );
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+}
+
 // --
 // declaration
 // --
