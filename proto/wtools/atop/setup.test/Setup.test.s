@@ -320,7 +320,7 @@ function nvmNjsInstallWindows( test )
     return;
   }
 
-  const scriptPath = a.path.join( __dirname, `../../../NvmNjsInstall.sh` );
+  const scriptPath = a.path.join( __dirname, `../../../NvmNjsInstall.bat` );
 
   /* */
 
@@ -368,6 +368,7 @@ let Self =
 
     gitConfigResetGlobal,
     nvmNjsInstallPosix,
+    nvmNjsInstallWindows,
 
   }
 
