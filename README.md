@@ -1,4 +1,4 @@
-# Utility::Setup
+# Utility::Setup [![status](https://github.com/Wandalen/Setup/workflows/publish/badge.svg)](https://github.com/Wandalen/Setup/actions?query=workflow%3Apublish) [![experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 
 Utility to setup development environment.
 
@@ -7,12 +7,12 @@ Utility to setup development environment.
 ```
 git clone https://github.com/Wandalen/Setup
 cd Setup
-./proto/[ name of script ] [ parameters ]
+./step/[ general step name ]/[ name of script ] [ parameters ]
 ```
 
 ### Setup Git global config
 
-To setup global settings use scripts `GitConfigGlobalSetup.sh` ( posix like OS ) or `GitConfigGlobalSetup.bat` ( Windows ).
+To setup global settings use scripts `Git.sh` ( posix like OS ) or `Git.bat` ( Windows ).
 The scripts setup core settings, user name, user email and inserts user name in git hosts URI ( github.com and bitbucket.org ).
 
 The scripts accept two parameters - name and email.
@@ -25,7 +25,7 @@ Example :
 
 ### Install NodeJS version manager ( nvm ), NodeJS and NPM
 
-To install utilities use scripts `NvmNjsInstall.sh` ( posix like OS ) or `NvmNjsInstall.bat` ( Windows ).
+To install utilities use scripts `Nvm.sh` ( posix like OS ) or `Nvm.bat` ( Windows ).
 It is needs the package manager `Chocolatey` and administrative shell to install utilities on Windows OS.
 
 Example :
