@@ -1,6 +1,6 @@
-# Setup
+# Utility::Setup
 
-Utilities to setup development environment.
+Utility to setup development environment.
 
 ## Try out
 
@@ -32,11 +32,5 @@ Example :
 
 ```
 ./step/install/Nvm.sh
-```
-
-The scripts can accept single argument - version of NodeJS to install.
-
-```
-./step/install/Nvm.sh 14.15.4
 ```
 
