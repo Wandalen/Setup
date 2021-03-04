@@ -39,7 +39,7 @@ function onSuiteEnd( test )
 // tests
 // --
 
-function gitConfigResetGlobal( test )
+function setupGit( test )
 {
   let context = this;
   let a = test.assetFor( 'basic' );
@@ -219,7 +219,7 @@ function gitConfigResetGlobal( test )
 
 //
 
-function nvmNjsInstallPosix( test )
+function installNvmPosix( test )
 {
   let context = this;
   let a = test.assetFor( 'basic' );
@@ -249,7 +249,7 @@ function nvmNjsInstallPosix( test )
 
   /* */
 
-  a.shell({ execPath : `${ scriptPath }`, timeOut : 60000 })
+  a.shell({ execPath : `${ scriptPath }`, timeOut : 120000 })
   .then( ( op ) =>
   {
     test.case = 'install nvm and lates lts nodejs';
@@ -270,7 +270,7 @@ function nvmNjsInstallPosix( test )
   {
     test.case = 'check node program';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /v\d\d\.\d\d\.\d/ ), 1 );
+    test.identical( _.strCount( op.output, /v\d\d\.\d{1,2}\.\d/ ), 1 );
     return null;
   });
 
@@ -279,7 +279,7 @@ function nvmNjsInstallPosix( test )
   {
     test.case = 'check npm package';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /\d\.\d\d\.\d/ ), 1 );
+    test.identical( _.strCount( op.output, /\d\.\d{1,2}\.\d/ ), 1 );
     return null;
   });
 
@@ -303,11 +303,11 @@ function nvmNjsInstallPosix( test )
   return a.ready;
 }
 
-nvmNjsInstallPosix.timeOut = 90000;
+installNvmPosix.timeOut = 180000;
 
 //
 
-function nvmNjsInstallWindows( test )
+function installNvmWindows( test )
 {
   let context = this;
   let a = test.assetFor( 'basic' );
@@ -373,7 +373,7 @@ function nvmNjsInstallWindows( test )
     return null;
     test.case = 'check node program';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /v\d\d\.\d\d\.\d/ ), 1 );
+    test.identical( _.strCount( op.output, /v\d\d\.\d{1,2}\.\d/ ), 1 );
     return null;
   });
 
@@ -384,7 +384,7 @@ function nvmNjsInstallWindows( test )
     return null;
     test.case = 'check npm package';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /\d\.\d\d\.\d/ ), 1 );
+    test.identical( _.strCount( op.output, /\d\.\d{1,2}\.\d/ ), 1 );
     return null;
   });
 
@@ -393,7 +393,7 @@ function nvmNjsInstallWindows( test )
   return a.ready;
 }
 
-nvmNjsInstallWindows.timeOut = 300000;
+installNvmWindows.timeOut = 300000;
 
 // --
 // declaration
@@ -420,9 +420,9 @@ let Self =
   tests :
   {
 
-    gitConfigResetGlobal,
-    nvmNjsInstallPosix,
-    nvmNjsInstallWindows,
+    setupGit,
+    installNvmPosix,
+    installNvmWindows,
 
   }
 
