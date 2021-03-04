@@ -20,5 +20,17 @@ The scripts accept two parameters - name and email.
 Example :
 
 ```
-./proto/GitConfigGlobalSetup.sh userName user@domain.com
+./proto/setup/Git.sh userName user@domain.com
 ```
+
+### Install NodeJS version manager ( nvm ), NodeJS and NPM
+
+To install utilities use scripts `NvmNjsInstall.sh` ( posix like OS ) or `NvmNjsInstall.bat` ( Windows ).
+It is needs the package manager `Chocolatey` and administrative shell to install utilities on Windows OS.
+
+Example :
+
+```
+./proto/install/Nvm.sh
+```
+

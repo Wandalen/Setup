@@ -20,7 +20,7 @@ The scripts accept two parameters - name and email.
 Example :
 
 ```
-./step/setup/Git.sh userName user@domain.com
+./proto/setup/Git.sh userName user@domain.com
 ```
 
 ### Install NodeJS version manager ( nvm ), NodeJS and NPM
@@ -31,12 +31,6 @@ It is needs the package manager `Chocolatey` and administrative shell to install
 Example :
 
 ```
-./step/install/Nvm.sh
-```
-
-The scripts can accept single argument - version of NodeJS to install.
-
-```
-./step/install/Nvm.sh 14.15.4
+./proto/install/Nvm.sh
 ```
 
