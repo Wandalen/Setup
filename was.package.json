@@ -1,5 +1,5 @@
 {
-  "name" : "setup",
+  "name" : "wsetup",
   "version" : "0.0.1",
   "engine" : "node >= 10.0.0",
   "description" : "Utilities to setup development environment",

@@ -1,7 +1,7 @@
 
 about :
 
-  name : 'Setup'
+  name : 'wSetup'
   description : 'Utilities to setup development environment.'
   version : '0.0.1'
   enabled : 1
