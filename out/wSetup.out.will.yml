@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wSetup.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wSetup.out.will.yml: &ref_0
+    hash: 560fae7a250bd6fb4abc8529fa71f133
+    size: 37239
+  ../.ex.will.yml: &ref_1
     hash: ea4feff8e24a526d39b5b17db0d993a1
     size: 1746
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: b0c3cb2b0f27e8c87c65a0de879502f5
     size: 4900
 module:
@@ -16,21 +19,21 @@ module:
       description: Utilities to setup development environment.
       enabled: 1
       version: 0.0.1
-      interpreters: &ref_2
+      interpreters:
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - setup
         - environment
         - tools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
         - Kryvoruchko Dmytro <dm.vict.kr@gmail.com>
       npm.name: setup
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -679,6 +682,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          filePath: 'reflector::exported.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          filePath: 'reflector::exported.files.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -767,8 +788,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wSetup.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wSetup
@@ -776,13 +798,23 @@ module:
       description: Utilities to setup development environment.
       enabled: 1
       version: 0.0.1
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - setup
+        - environment
+        - tools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@01.school>
+        - Kryvoruchko Dmytro <dm.vict.kr@gmail.com>
       npm.name: setup
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1441,3 +1473,6 @@ module:
       ../.im.will.yml:
         hash: b0c3cb2b0f27e8c87c65a0de879502f5
         size: 4900
+      wSetup.out.will.yml:
+        hash: 560fae7a250bd6fb4abc8529fa71f133
+        size: 37239
