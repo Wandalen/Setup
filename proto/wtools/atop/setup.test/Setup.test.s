@@ -62,7 +62,7 @@ function gitConfigResetGlobal( test )
   });
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../GitConfigGlobalSetup.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../setup/Git.${ ext }` );
 
   /* */
 
@@ -245,7 +245,7 @@ function nvmNjsInstallPosix( test )
     return null;
   });
 
-  const scriptPath = a.path.join( __dirname, `../../../NvmNjsInstall.sh` );
+  const scriptPath = a.path.join( __dirname, `../../../install/Nvm.sh` );
 
   /* */
 
@@ -320,7 +320,7 @@ function nvmNjsInstallWindows( test )
     return;
   }
 
-  const scriptPath = a.path.join( __dirname, `../../../NvmNjsInstall.bat` );
+  const scriptPath = a.path.join( __dirname, `../../../install/Nvm.bat` );
 
   /* */
 
