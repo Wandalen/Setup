@@ -1,0 +1,44 @@
+{
+  "name": "setup",
+  "version": "0.0.1",
+  "engine": "node >= 10.0.0",
+  "description": "Utilities to setup development environment",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@01.school"
+    },
+    {
+      "name": "Kryvoruchko Dmytro",
+      "email": "dm.vict.kr@gmail.com"
+    }
+  ],
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-3",
+    "docgen": "wdocgen proto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/Setup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/Setup/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "setup": "file:.",
+    "wTesting": "alpha",
+    "eslint": "7.1.0"
+  },
+  "keywords": [
+    "setup",
+    "environment",
+    "tools"
+  ]
+}

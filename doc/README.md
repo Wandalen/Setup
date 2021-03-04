@@ -22,16 +22,3 @@ Example :
 ```
 ./proto/GitConfigGlobalSetup.sh userName user@domain.com
 ```
-
-### Install NodeJS version manager ( nvm ), NodeJS and NPM
-
-To install utilities use scripts `NvmNjsInstall.sh` ( posix like OS ) or `NvmNjsInstall.bat` ( Windows ).
-It is needs the package manager `Chocolatey` and administrative shell to install utilities on Windows OS.
-
-The scripts accept single parameter - version of NodeJS to install.
-
-Example :
-
-```
-./proto/NvmNjsInstall.sh 14.15.4
-```
