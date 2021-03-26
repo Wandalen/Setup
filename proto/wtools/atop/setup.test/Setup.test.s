@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wFiles' );
 }
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 
 // --
 // context
@@ -399,7 +399,7 @@ installNvmWindows.timeOut = 300000;
 // declaration
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Setup.test.s',
@@ -428,7 +428,7 @@ let Self =
 
 }
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 
