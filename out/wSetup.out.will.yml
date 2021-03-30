@@ -159,6 +159,8 @@ module:
         path:
           - ../proto
           - ../proto/Integration.test.ss
+          - ../proto/node_modules
+          - ../proto/node_modules/wsetup
           - ../proto/wtools
           - ../proto/wtools/atop
           - ../proto/wtools/atop/setup.test
