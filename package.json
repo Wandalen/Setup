@@ -1,45 +1,21 @@
 {
-  "name": "wsetup",
-  "version": "0.0.18",
-  "engine": "node >= 10.0.0",
-  "description": "Utilities to setup development environment",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "license": "MIT",
-  "contributors": [
-    {
-      "name": "Kostiantyn Wandalen",
-      "email": "wanalen@01.school"
-    },
-    {
-      "name": "Kryvoruchko Dmytro",
-      "email": "dm.vict.kr@gmail.com"
-    }
+  "name" : "wsetup",
+  "version" : "0.0.19",
+  "engine" : "node >= 10.0.0",
+  "description" : "Utilities to setup development environment",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "license" : "MIT",
+  "contributors" :
+  [
+    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
+    { "name" : "Kryvoruchko Dmytro", "email" : "dm.vict.kr@gmail.com" }
   ],
-  "main": "index.js",
-  "files": [
-    "index.js",
-    "proto/node_modules"
-  ],
-  "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3",
-    "docgen": "wdocgen proto"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wandalen/Setup.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Wandalen/Setup/issues"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "eslint": "7.1.0",
-    "setup": "file:.",
-    "wTesting": "delta"
-  },
-  "keywords": [
-    "setup",
-    "environment",
-    "tools"
-  ]
+  "main" : "/pro/module/Setup/proto/node_modules/wsetup",
+  "files" : [ "index.js", "proto/node_modules" ],
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
+  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/Setup.git" },
+  "bugs" : { "url" : "https://github.com/Wandalen/Setup/issues" },
+  "dependencies" : {},
+  "devDependencies" : { "setup" : "file:.", "eslint" : "7.1.0", "wTesting" : "delta" },
+  "keywords" : [ "setup", "environment", "tools" ]
 }

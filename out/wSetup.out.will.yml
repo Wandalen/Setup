@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wSetup.out
 consistency:
-  wSetup.out.will.yml: &ref_0
-    hash: 560fae7a250bd6fb4abc8529fa71f133
-    size: 37239
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: ea4feff8e24a526d39b5b17db0d993a1
     size: 1746
-  ../.im.will.yml: &ref_2
-    hash: b0c3cb2b0f27e8c87c65a0de879502f5
-    size: 4900
+  ../.im.will.yml: &ref_1
+    hash: f2628b71208566e9f663f4e785c31e5d
+    size: 4790
 module:
   wSetup.out:
     about:
@@ -19,21 +16,21 @@ module:
       description: Utilities to setup development environment.
       enabled: 1
       version: 0.0.1
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - setup
         - environment
         - tools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
         - Kryvoruchko Dmytro <dm.vict.kr@gmail.com>
       npm.name: setup
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -64,7 +61,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ../
+        path: ..
       repository:
         path: 'git+https:///github.com/Wandalen/Setup.git'
       origins:
@@ -145,6 +142,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/index.js'
+      npm.proto.entry:
+        path:
+          - ../index.js
+          - ../proto/node_modules/wsetup
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -685,24 +686,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -791,9 +774,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wSetup.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wSetup
@@ -801,23 +783,13 @@ module:
       description: Utilities to setup development environment.
       enabled: 1
       version: 0.0.1
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - setup
-        - environment
-        - tools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
-        - Kryvoruchko Dmytro <dm.vict.kr@gmail.com>
+      contributors: *ref_4
       npm.name: setup
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -846,7 +818,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ./
+        path: .
       repository:
         path: 'git+https:///github.com/Wandalen/Setup.git'
       origins:
@@ -927,6 +899,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/index.js'
+      npm.proto.entry:
+        path:
+          - index.js
+          - proto/node_modules/wsetup
     submodule:
       Testing:
         path: 'npm:///wTesting'
@@ -1475,6 +1451,5 @@ module:
         hash: ea4feff8e24a526d39b5b17db0d993a1
         size: 1746
       ../.im.will.yml:
-        hash: b0c3cb2b0f27e8c87c65a0de879502f5
-        size: 4900
-      wSetup.out.will.yml: *ref_0
+        hash: f2628b71208566e9f663f4e785c31e5d
+        size: 4790
