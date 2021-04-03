@@ -10,7 +10,7 @@
     { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
     { "name" : "Kryvoruchko Dmytro", "email" : "dm.vict.kr@gmail.com" }
   ],
-  "main" : "index.js",
+  "main" : "/pro/module/Setup/proto/node_modules/wsetup",
   "files" : [ "index.js", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/Setup.git" },
