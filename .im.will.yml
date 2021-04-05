@@ -69,8 +69,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/Setup/index.js
-    - /pro/module/Setup/proto/node_modules/wsetup
+    - index.js
+    - proto/node_modules/wsetup
 reflector:
   reflect.proto:
     inherit: predefined.*
