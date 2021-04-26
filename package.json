@@ -1,6 +1,6 @@
 {
   "name" : "wsetup",
-  "version" : "0.0.30",
+  "version" : "0.0.31",
   "engine" : "node >= 10.0.0",
   "description" : "Utilities to setup development environment",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
@@ -16,6 +16,6 @@
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/Setup.git" },
   "bugs" : { "url" : "https://github.com/Wandalen/Setup/issues" },
   "dependencies" : {},
-  "devDependencies" : { "setup" : "file:.", "eslint" : "7.1.0", "wTesting" : "delta" },
+  "devDependencies" : { "setup" : "file:.", "eslint" : "7.1.0", "wTesting" : "gamma" },
   "keywords" : [ "setup", "environment", "tools" ]
 }
