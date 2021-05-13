@@ -2,12 +2,9 @@ format: outwillfile-2.0
 root:
   - wSetup.out
 consistency:
-  ../.ex.will.yml: &ref_0
-    hash: ea4feff8e24a526d39b5b17db0d993a1
-    size: 1746
-  ../.im.will.yml: &ref_1
-    hash: 2226fa6ba854aeb487524c3dd6cc5859
-    size: 4754
+  ../will.yml: &ref_0
+    hash: 3d73e89b530ebde3e26b01d8dbcea316
+    size: 6263
 module:
   wSetup.out:
     about:
@@ -16,21 +13,21 @@ module:
       description: Utilities to setup development environment.
       enabled: 1
       version: 0.0.1
-      interpreters: &ref_2
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords: &ref_3
+      license: MIT
+      npm.name: setup
+      author: Kostiantyn Wandalen <wanalen@01.school>
+      keywords: &ref_1
         - setup
         - environment
         - tools
-      license: MIT
-      author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors: &ref_2
         - Kostiantyn Wandalen <wanalen@01.school>
         - Kryvoruchko Dmytro <dm.vict.kr@gmail.com>
-      npm.name: setup
-      npm.scripts: &ref_5
+      interpreters: &ref_3
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      npm.scripts: &ref_4
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -45,15 +42,11 @@ module:
       module.original.willfiles:
         criterion:
           predefined: 1
-        path:
-          - ../.ex.will.yml
-          - ../.im.will.yml
+        path: ../will.yml
       module.peer.willfiles:
         criterion:
           predefined: 1
-        path:
-          - ../.ex.will.yml
-          - ../.im.will.yml
+        path: ../will.yml
       module.peer.in:
         criterion:
           predefined: 1
@@ -167,7 +160,7 @@ module:
           - ../proto/wtools/atop/setup.test
           - ../proto/wtools/atop/setup.test/Setup.test.s
     submodule:
-      Testing:
+      wTesting:
         path: 'npm:///wTesting'
         autoExporting: 0
         enabled: 0
@@ -178,7 +171,7 @@ module:
         autoExporting: 0
         enabled: 0
         criterion:
-          debug: 1
+          development: 1
     reflector:
       reflect.proto.debug.raw:
         src:
@@ -774,8 +767,7 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      ../will.yml: *ref_0
   ../:
     about:
       name: wSetup
@@ -783,26 +775,22 @@ module:
       description: Utilities to setup development environment.
       enabled: 1
       version: 0.0.1
-      interpreters: *ref_2
-      keywords: *ref_3
       license: MIT
-      author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
       npm.name: setup
-      npm.scripts: *ref_5
+      author: Kostiantyn Wandalen <wanalen@01.school>
+      keywords: *ref_1
+      contributors: *ref_2
+      interpreters: *ref_3
+      npm.scripts: *ref_4
     path:
       module.willfiles:
         criterion:
           predefined: 1
-        path:
-          - .ex.will.yml
-          - .im.will.yml
+        path: will.yml
       module.original.willfiles:
         criterion:
           predefined: 1
-        path:
-          - .ex.will.yml
-          - .im.will.yml
+        path: will.yml
       module.peer.willfiles:
         criterion:
           predefined: 1
@@ -904,7 +892,7 @@ module:
           - index.js
           - proto/node_modules/wsetup
     submodule:
-      Testing:
+      wTesting:
         path: 'npm:///wTesting'
         autoExporting: 0
         enabled: 0
@@ -915,7 +903,7 @@ module:
         autoExporting: 0
         enabled: 0
         criterion:
-          debug: 1
+          development: 1
     reflector:
       reflect.proto.debug.raw:
         src:
@@ -1447,9 +1435,6 @@ module:
           - 'build::release'
           - 'build::npm'
     consistency:
-      ../.ex.will.yml:
-        hash: ea4feff8e24a526d39b5b17db0d993a1
-        size: 1746
-      ../.im.will.yml:
-        hash: 2226fa6ba854aeb487524c3dd6cc5859
-        size: 4754
+      ../will.yml:
+        hash: 3d73e89b530ebde3e26b01d8dbcea316
+        size: 6263
