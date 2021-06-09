@@ -11,7 +11,7 @@
     { "name" : "Kryvoruchko Dmytro", "email" : "dm.vict.kr@gmail.com" }
   ],
   "main" : "proto/node_modules/wsetup",
-  "files" : [ "index.js", "proto/node_modules" ],
+  "files" : [ "index.js", "proto/node_modules", "proto/node_modules/wsetup" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/Setup.git" },
   "bugs" : { "url" : "https://github.com/Wandalen/Setup/issues" },
