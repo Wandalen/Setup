@@ -1,6 +1,6 @@
 {
   "name": "wsetup",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "engine": "node >= 10.0.0",
   "description": "Utilities to setup development environment",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
