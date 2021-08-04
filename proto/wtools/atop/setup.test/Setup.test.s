@@ -47,10 +47,7 @@ function setupGit( test )
 
   /* to prevent global config corruption */
   if( !_.process.insideTestContainer() )
-  {
-    test.true( true );
-    return;
-  }
+  return test.true( true );
 
   /* save original global config */
   let globalConfigPath, originalGlobalConfig;
@@ -67,8 +64,7 @@ function setupGit( test )
   /* */
 
   begin();
-  a.shell( `${ scriptPath } user user@domain.com` );
-  a.shell( 'git config --global --list' )
+  a.shell( `${ scriptPath } user user@domain.com` )
   .then( ( op ) =>
   {
     test.case = 'almost empty global config - user name and email';
@@ -88,8 +84,7 @@ function setupGit( test )
 
   begin();
   a.shell( 'git config --global user.name "user2"' );
-  a.shell( `${ scriptPath } user user@domain.com` );
-  a.shell( 'git config --global --list' )
+  a.shell( `${ scriptPath } user user@domain.com` )
   .then( ( op ) =>
   {
     test.case = 'global config with field - user name and email';
@@ -108,14 +103,26 @@ function setupGit( test )
   /* */
 
   begin();
-  a.shell( `${ scriptPath } user` );
-  a.shell( 'git config --global --list' )
+  a.shellNonThrowing( `${ scriptPath } user` )
+  .then( ( op ) =>
+  {
+    test.case = 'almost empty global config - only user name';
+    test.identical( op.exitCode, 1 );
+    test.identical( _.strCount( op.output, 'User email is not defined. Please, define user email.' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( `git config --global user.email user@domain.com` );
+  a.shell( `${ scriptPath } user` )
   .then( ( op ) =>
   {
     test.case = 'almost empty global config - only user name';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -128,15 +135,15 @@ function setupGit( test )
   /* */
 
   begin();
+  a.shell( `git config --global user.email user@domain.com` );
   a.shell( 'git config --global user.name "user2"' );
-  a.shell( `${ scriptPath } user` );
-  a.shell( 'git config --global --list' )
+  a.shell( `${ scriptPath } user` )
   .then( ( op ) =>
   {
     test.case = 'global config with field - only user name';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -149,14 +156,27 @@ function setupGit( test )
   /* */
 
   begin();
-  a.shell( `${ scriptPath }` );
-  a.shell( 'git config --global --list' )
+  a.shellNonThrowing( `${ scriptPath }` )
+  .then( ( op ) =>
+  {
+    test.case = 'almost empty global config - without user name and email';
+    test.identical( op.exitCode, 1 );
+    test.identical( _.strCount( op.output, 'User name is not defined. Please, define user name.' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( `git config --global user.email user@domain.com` );
+  a.shell( `git config --global user.name user` );
+  a.shell( `${ scriptPath }` )
   .then( ( op ) =>
   {
     test.case = 'almost empty global config - without user name and email';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'user.name=user' ), 0 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -170,20 +190,34 @@ function setupGit( test )
 
   begin();
   a.shell( 'git config --global user.name "user2"' );
-  a.shell( `${ scriptPath }` );
-  a.shell( 'git config --global --list' )
+  a.shellNonThrowing( `${ scriptPath }` )
   .then( ( op ) =>
   {
     test.case = 'global config with field - only user name';
+    test.identical( op.exitCode, 1 );
+    test.identical( _.strCount( op.output, 'User email is not defined. Please, define user email.' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin();
+  a.shell( `${ scriptPath } user user@domain.com` );
+  a.shell( `${ scriptPath } user2 user2@domain.com` )
+  .then( ( op ) =>
+  {
+    test.case = 'call script twice, should overwrite existing config only';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user2' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
+    test.identical( _.strCount( op.output, 'user.email=use2r@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
     test.identical( _.strCount( op.output, 'credential.helper=store' ), 1 );
     test.identical( _.strCount( op.output, 'url.https://user@github.com.insteadof=https://github.com' ), 0 );
     test.identical( _.strCount( op.output, 'url.https://user@bitbucket.org.insteadof=https://bitbucket.org' ), 0 );
+    test.identical( _.strCount( op.output, 'url.https://user2@github.com.insteadof=https://github.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://user2@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
     return null;
   });
 
