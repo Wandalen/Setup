@@ -133,6 +133,108 @@ function backupGitConfig( test )
 }
 
 //
+
+function cleanGitConfig( test )
+{
+  let context = this;
+  let a = test.assetFor( 'basic' );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+
+  /* to prevent global config corruption */
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  /* save original global config */
+  let globalConfigPath = a.path.nativize( a.abs( process.env.HOME, '.gitconfig' ) );
+  let globalConfigBackupPath = a.path.nativize( a.abs( process.env.HOME, '.gitconfig.backup' ) );
+  let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
+
+  const ext = process.platform === 'win32' ? 'bat' : 'sh';
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/Clean.${ ext }` );
+
+  /* - */
+
+  begin( true );
+  a.shell( `${ scriptPath }` );
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'not empty config, run once, no backup file';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 1 );
+    test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
+    return null;
+  });
+
+  begin( true );
+  a.shell( `${ scriptPath }` );
+  a.shell( `${ scriptPath }` );
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'not empty config, run twice, backup file';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
+    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 1 );
+    test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
+    return null;
+  });
+
+  /* */
+
+  begin( false );
+  a.shell( `${ scriptPath }` );
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'empty config, run once, no backup file';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 1 );
+    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 0 );
+    test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
+    return null;
+  });
+
+  begin( false );
+  a.shell( `${ scriptPath }` );
+  a.shell( `${ scriptPath }` );
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'not empty config, run twice, no backup file';
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
+    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 1 );
+    test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
+    return null;
+  });
+
+  a.ready.finally( ( err, arg ) =>
+  {
+    a.fileProvider.fileWrite( globalConfigPath, originalGlobalConfig );
+
+    if( err )
+    {
+      _.errAttend( err );
+      throw _.err( err );
+    }
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+
+  /* */
+
+  function begin( extend )
+  {
+    a.ready.then( () => { a.fileProvider.fileWrite( globalConfigPath, '' ); return null });
+    a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath); return null });
+    if( extend )
+    a.shell( `${ a.abs( a.path.dir( scriptPath ), 'Git.' + ext ) } user user@domain.com` );
+    return a.ready;
+  }
+}
+
+//
+
 function setupGitConfig( test )
 {
   let context = this;
@@ -144,13 +246,8 @@ function setupGitConfig( test )
   return test.true( true );
 
   /* save original global config */
-  let globalConfigPath, originalGlobalConfig;
-  a.ready.then( ( op ) =>
-  {
-    globalConfigPath = a.path.nativize( a.path.join( process.env.HOME, '.gitconfig' ) );
-    originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
-    return null;
-  });
+  let globalConfigPath = a.path.nativize( a.path.join( process.env.HOME, '.gitconfig' ) );
+  let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
   const scriptPath = a.path.join( __dirname, `../../../../step/setup/Git.${ ext }` );
@@ -549,6 +646,7 @@ const Proto =
   {
 
     backupGitConfig,
+    cleanGitConfig,
     setupGitConfig,
     installNvmPosix,
     installNvmWindows,
