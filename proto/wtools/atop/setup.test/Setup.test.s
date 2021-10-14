@@ -442,6 +442,8 @@ function setupGitConfig( test )
   }
 }
 
+setupGitConfig.timeOut = 10000;
+
 //
 
 function installNvmPosix( test )
