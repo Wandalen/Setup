@@ -21,6 +21,8 @@ if "%OLDEMAIL%" == "" (
   )
 )
 
+call %~dp0\Backup.bat
+
 git config --global core.autocrlf false
 git config --global core.ignorecase false
 git config --global core.fileMode false

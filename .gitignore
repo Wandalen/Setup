@@ -7,14 +7,21 @@
 /build
 /builder
 /binding
+/target
 /node_modules
 /.module
 /package-lock.json
+/Cargo.lock
+/.vscode
 
 -*
 .module
+target
+Cargo.lock
 .warchive*
 *.log
 *.db
 *.tmp
 *.build
+.DS_Store
+.idea

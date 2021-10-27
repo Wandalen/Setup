@@ -30,3 +30,4 @@ nvm install --lts --latest-npm "$VERSION"
 
 exit 0
 
+/* qqq : does not print information! */
