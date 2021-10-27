@@ -1,6 +1,6 @@
 {
   "name": "wsetup",
-  "version": "0.0.49",
+  "version": "0.0.61",
   "engine": "node >= 10.0.0",
   "description": "Utilities to setup development environment",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "wTesting": "",
     "setup": "file:.",
-    "eslint": "7.1.0"
+    "eslint": "7.32.0"
   },
   "keywords": [
     "setup",
