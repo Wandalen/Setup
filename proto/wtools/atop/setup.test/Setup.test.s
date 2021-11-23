@@ -55,7 +55,7 @@ function backupGitConfig( test )
   let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../../step/setup/Backup.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/internal/Backup.${ ext }` );
 
   /* - */
 
@@ -127,7 +127,7 @@ function backupGitConfig( test )
     a.ready.then( () => { a.fileProvider.fileWrite( globalConfigPath, '' ); return null });
     a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath); return null });
     if( extend )
-    a.shell( `${ a.abs( a.path.dir( scriptPath ), 'Git.' + ext ) } user user@domain.com` );
+    a.shell( `${ a.abs( a.path.dir( scriptPath ), '../Git.' + ext ) } user user@domain.com` );
     return a.ready;
   }
 }
@@ -483,11 +483,6 @@ function installNvmPosix( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '=> Downloading nvm from git to' ), 1 );
     test.identical( _.strCount( op.output, '=> Compressing and cleaning up git repository' ), 1 );
-    if( process.platform !== 'darwin' )
-    {
-      test.identical( _.strCount( op.output, '=> Appending nvm source string to' ), 1 );
-      test.identical( _.strCount( op.output, '=> Appending bash_completion source string to' ), 1 );
-    }
     test.identical( _.strCount( op.output, 'Installing latest LTS version' ), 1 );
     return null;
   });

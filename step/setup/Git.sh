@@ -41,5 +41,3 @@ fi
 git config --list --global --show-origin
 
 exit 0
-
-/* qqq : does not print information! */
