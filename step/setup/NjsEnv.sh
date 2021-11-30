@@ -30,6 +30,10 @@ case $OS in
     if [[ $(xcode-select -p) == "" ]] ; then
       xcode-select --install
     fi
+
+    if [[ $(which brew) == "" ]] ; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    fi
     ;;
   *)
     echo "Unknown OS"
@@ -46,7 +50,7 @@ if [[ $(which node) == "" ]] ; then
 else
   VERSION=$(node -v)
   if [[ ${VERSION:1:2} < 14 ]] ; then
-    echo "Please, use install NodeJs v14 or higher."
+    echo "Please, install NodeJs v14 or higher."
     exit 1
   fi
 fi
