@@ -3,8 +3,8 @@ root:
   - wSetup.out
 consistency:
   ../will.yml: &ref_0
-    hash: 0240226d3827827163d92ad034b807ff
-    size: 6122
+    hash: 7aedc758dd017e28f40da4f057f42e96
+    size: 6130
 module:
   wSetup.out:
     about:
@@ -1418,5 +1418,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 0240226d3827827163d92ad034b807ff
-        size: 6122
+        hash: 7aedc758dd017e28f40da4f057f42e96
+        size: 6130
