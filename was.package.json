@@ -1,14 +1,14 @@
 {
   "name": "wsetup",
-  "version": "0.0.68",
+  "version": "0.0.71",
   "engine": "node >= 10.0.0",
   "description": "Utilities to setup development environment",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
   "license": "MIT",
   "contributors": [
     {
       "name": "Kostiantyn Wandalen",
-      "email": "wanalen@01.school"
+      "email": "wandalen@obox.systems"
     },
     {
       "name": "Kryvoruchko Dmytro",

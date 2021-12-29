@@ -5,13 +5,13 @@ about:
   enabled: 1
   license: MIT
   npm.name: setup
-  author: Kostiantyn Wandalen <wanalen@01.school>
+  author: Kostiantyn Wandalen <wandalen@obox.systems>
   keywords:
     - setup
     - environment
     - tools
   contributors:
-    - Kostiantyn Wandalen <wanalen@01.school>
+    - Kostiantyn Wandalen <wandalen@obox.systems>
     - Kryvoruchko Dmytro <dm.vict.kr@gmail.com>
   interpreters:
     - njs >= 10.0.0
