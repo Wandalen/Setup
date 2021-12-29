@@ -34,7 +34,7 @@ where node.exe
 if %ERRORLEVEL% NEQ 0 (
   call %~dp0\..\install\Nvm.bat
 )
-@REM else (
+
 @REM   set VERSION=$(node -v)
 @REM   if [[ ${VERSION:1:2} < 14 ]] ; then
 @REM     echo "Please, install NodeJs v14 or higher."
@@ -49,6 +49,6 @@ if %ERRORLEVEL% NEQ 0 (
 
 git clone https://github.com/Wandalen/wNodejsDevEnv.git
 cd wNodejsDevEnv
-npm test
+call npm test
 cd ..
-rd /s /q wNodejsDevEnv
+rmdir /s /q wNodejsDevEnv
