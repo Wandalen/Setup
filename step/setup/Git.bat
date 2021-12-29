@@ -43,4 +43,3 @@ if not "%EMAIL%" == "" (
 )
 
 git config --list --global --show-origin
-
