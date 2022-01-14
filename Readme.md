@@ -10,7 +10,7 @@ cd Setup
 ./step/[ general step name ]/[ name of script ] [ parameters ]
 ```
 
-### Setup Git global config
+### Setup global Git config
 
 To setup global settings use scripts `Git.sh` ( posix like OS ) or `Git.bat` ( Windows ).
 The scripts setup core settings, user name, user email and inserts user name in git hosts URI ( github.com and bitbucket.org ).
@@ -26,11 +26,21 @@ Example :
 ### Install NodeJS version manager ( nvm ), NodeJS and NPM
 
 To install utilities use scripts `Nvm.sh` ( posix like OS ) or `Nvm.bat` ( Windows ).
-It is needs the package manager `Chocolatey` and administrative shell to install utilities on Windows OS.
+To install utilities on Windows OS, the package manager `Chocolatey` and administrative shell are required.
 
 Example :
 
 ```
 ./step/install/Nvm.sh
+```
+
+### Check and setup development environment for building native NodeJS modules
+
+To check the development environment use scripts `NjsEnv.sh` ( posix like OS ) or `NjsEnv.bat` ( Windows ).
+The scripts will check the required utilities and build a simple native module. If it will be possible, the script will install missed utilities.
+Example :
+
+```
+./step/setup/NjsEnv.sh
 ```
 
