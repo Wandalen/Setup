@@ -656,6 +656,8 @@ function setupNjsEnv( test )
   return a.ready;
 }
 
+setupNjsEnv.timeOut = 300000;
+
 // --
 // declaration
 // --
