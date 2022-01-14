@@ -6,7 +6,7 @@ case $OS in
     PKG_MGR_CMD='sudo apt install'
     if [[ $(which apt) == "" ]] ; then
       if [[ $(which pacman) != "" ]] ; then
-        PKG_MGR_CMD='sudo pacman -S'
+        PKG_MGR_CMD='sudo pacman -Sy'
       else
         if [[ $(which dnf) != "" ]] ; then
           PKG_MGR_CMD='sudo dnf install'

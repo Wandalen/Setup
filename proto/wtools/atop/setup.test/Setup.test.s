@@ -22,7 +22,6 @@ function onSuiteBegin( test )
   context.provider = _.fileProvider;
   let path = context.provider.path;
   context.suiteTempPath = context.provider.path.tempOpen( path.join( __dirname, '../..'  ), 'Setup' );
-  // context.assetsOriginalPath = _.path.join( __dirname, '_asset' );
 }
 
 //
@@ -537,10 +536,7 @@ function installNvmWindows( test )
 
   /* install nvm and njs only in test container */
   if( process.platform !== 'win32' || !_.process.insideTestContainer() )
-  {
-    test.true( true );
-    return;
-  }
+  return test.true( true );
 
   const scriptPath = a.path.join( __dirname, `../../../../step/install/Nvm.bat` );
 
@@ -617,13 +613,55 @@ function installNvmWindows( test )
 
 installNvmWindows.timeOut = 300000;
 
+//
+
+function setupNjsEnv( test )
+{
+  const a = test.assetFor( 'basic' );
+
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  const ext = process.platform === 'win32' ? 'bat' : 'sh';
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/NjsEnv.${ ext }` );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+
+  /* - */
+
+  const njsVersion = _.number.from( process.versions.node.split( '.' )[ 0 ] );
+  if( njsVersion < 14 )
+  {
+    a.shellNonThrowing( scriptPath );
+    a.ready.then( ( op ) =>
+    {
+      test.notIdentical( op.exitCode, 0 );
+      test.identical( _.strCount( op.output, 'Please, install NodeJs v14 or higher.' ), 1 );
+      return null;
+    });
+  }
+  else
+  {
+    a.shellNonThrowing( scriptPath );
+    a.ready.then( ( op ) =>
+    {
+      test.identical( op.exitCode, 0 );
+      test.identical( _.strCount( op.output, 'Please, install NodeJs v14 or higher.' ), 0 );
+      test.identical( _.strCount( op.output, 'Your environment is ready for development of native nodejs modules.' ), 1 );
+      return null;
+    });
+  }
+
+  /* - */
+
+  return a.ready;
+}
+
 // --
 // declaration
 // --
 
 const Proto =
 {
-
   name : 'Setup.test.s',
   silencing : 1,
   enabled : 1,
@@ -641,16 +679,14 @@ const Proto =
 
   tests :
   {
-
     backupGitConfig,
     cleanGitConfig,
     setupGitConfig,
     installNvmPosix,
     installNvmWindows,
-
-  }
-
-}
+    setupNjsEnv,
+  },
+};
 
 const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
