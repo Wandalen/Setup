@@ -10,11 +10,13 @@ for /f %%i in ('git config --get user.name') do set CONFIG=%%i
 if not "%CONFIG%" == "" (
   echo "%MSG%"
   copy %SOURCE% %BACKUP%
+  call %~dp0\GitClean.bat
   exit /b 0
 )
 if not exist %BACKUP% (
   echo "%MSG%"
   copy %SOURCE% %BACKUP%
+  call %~dp0\GitClean.bat
 ) else (
   echo Nothing to backup.
 )

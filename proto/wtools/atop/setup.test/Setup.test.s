@@ -54,7 +54,7 @@ function backupGitConfig( test )
   let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../../step/setup/internal/Backup.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/internal/GitBackup.${ ext }` );
 
   /* - */
 
@@ -149,7 +149,7 @@ function cleanGitConfig( test )
   let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../../step/setup/Clean.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/internal/GitClean.${ ext }` );
 
   /* - */
 
