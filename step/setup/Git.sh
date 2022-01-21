@@ -17,7 +17,7 @@ if [[ $OLDEMAIL == "" && $EMAIL == "" ]] ; then
   exit 1
 fi
 
-"$(dirname "$0")"/Backup.sh
+"$(dirname "$0")"/internal/GitBackup.sh
 
 git config --global core.autocrlf false
 git config --global core.ignorecase false
