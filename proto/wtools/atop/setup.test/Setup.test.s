@@ -76,7 +76,7 @@ function backupGitConfig( test )
     test.case = 'not empty config, run twice, backup file';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
-    test.identical( op.output, 'Nothing to backup.\n' );
+    test.identical( _.strCount( op.output, /Nothing to backup./ ), 1 );
     return null;
   });
 
@@ -313,7 +313,7 @@ function setupGitConfig( test )
     test.case = 'almost empty global config - only user name';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -334,7 +334,7 @@ function setupGitConfig( test )
     test.case = 'global config with field - only user name';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -366,8 +366,8 @@ function setupGitConfig( test )
   {
     test.case = 'almost empty global config - without user name and email';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 0 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
