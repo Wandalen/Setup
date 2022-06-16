@@ -5,7 +5,7 @@ set BACKUP=%USERPROFILE%\.gitconfig.backup
 set MSG=File %SOURCE% backuped. Backup file : %BACKUP%
 
 set CONFIG=
-for /f %%i in ('git config --get user.name') do set CONFIG=%%i
+for /f %%i in ('git config --global --list') do set CONFIG=%%i
 
 if not "%CONFIG%" == "" (
   echo "%MSG%"
