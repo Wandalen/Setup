@@ -75,7 +75,8 @@ function backupGitConfig( test )
   {
     test.case = 'not empty config, run twice, backup file';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 1 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
+    test.identical( op.output, 'Nothing to backup.\n' );
     return null;
   });
 
@@ -124,7 +125,7 @@ function backupGitConfig( test )
   function begin( extend )
   {
     a.ready.then( () => { a.fileProvider.fileWrite( globalConfigPath, '' ); return null });
-    a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath); return null });
+    a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath ); return null });
     if( extend )
     a.shell( `${ a.abs( a.path.dir( scriptPath ), '../Git.' + ext ) } user user@domain.com` );
     return a.ready;
