@@ -22,7 +22,6 @@ function onSuiteBegin( test )
   context.provider = _.fileProvider;
   let path = context.provider.path;
   context.suiteTempPath = context.provider.path.tempOpen( path.join( __dirname, '../..'  ), 'Setup' );
-  // context.assetsOriginalPath = _.path.join( __dirname, '_asset' );
 }
 
 //
@@ -55,7 +54,7 @@ function backupGitConfig( test )
   let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../../step/setup/Backup.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/internal/GitBackup.${ ext }` );
 
   /* - */
 
@@ -76,7 +75,8 @@ function backupGitConfig( test )
   {
     test.case = 'not empty config, run twice, backup file';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 1 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
+    test.identical( _.strCount( op.output, /Nothing to backup./ ), 1 );
     return null;
   });
 
@@ -125,9 +125,9 @@ function backupGitConfig( test )
   function begin( extend )
   {
     a.ready.then( () => { a.fileProvider.fileWrite( globalConfigPath, '' ); return null });
-    a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath); return null });
+    a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath ); return null });
     if( extend )
-    a.shell( `${ a.abs( a.path.dir( scriptPath ), 'Git.' + ext ) } user user@domain.com` );
+    a.shell( `${ a.abs( a.path.dir( scriptPath ), '../Git.' + ext ) } user user@domain.com` );
     return a.ready;
   }
 }
@@ -150,7 +150,7 @@ function cleanGitConfig( test )
   let originalGlobalConfig = a.fileProvider.fileRead( globalConfigPath );
 
   const ext = process.platform === 'win32' ? 'bat' : 'sh';
-  const scriptPath = a.path.join( __dirname, `../../../../step/setup/Clean.${ ext }` );
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/internal/GitClean.${ ext }` );
 
   /* - */
 
@@ -160,7 +160,7 @@ function cleanGitConfig( test )
   {
     test.case = 'not empty config, run once, no backup file';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 1 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
     test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
     return null;
   });
@@ -173,7 +173,7 @@ function cleanGitConfig( test )
     test.case = 'not empty config, run twice, backup file';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
-    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 1 );
+    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 0 );
     test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
     return null;
   });
@@ -186,7 +186,7 @@ function cleanGitConfig( test )
   {
     test.case = 'empty config, run once, no backup file';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 1 );
+    test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
     test.identical( _.strCount( op.output, 'Nothing to backup.' ), 0 );
     test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
     return null;
@@ -200,7 +200,7 @@ function cleanGitConfig( test )
     test.case = 'not empty config, run twice, no backup file';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, /File .*\.gitconfig backuped. Backup file : .*\.gitconfig\.backup/ ), 0 );
-    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 1 );
+    test.identical( _.strCount( op.output, 'Nothing to backup.' ), 0 );
     test.identical( _.strCount( op.output, /All settings from file .*\.gitconfig are cleaned./ ), 1 );
     return null;
   });
@@ -228,7 +228,7 @@ function cleanGitConfig( test )
     a.ready.then( () => { a.fileProvider.fileWrite( globalConfigPath, '' ); return null });
     a.ready.then( () => { a.fileProvider.filesDelete( globalConfigBackupPath); return null });
     if( extend )
-    a.shell( `${ a.abs( a.path.dir( scriptPath ), 'Git.' + ext ) } user user@domain.com` );
+    a.shell( `${ a.abs( a.path.dir( scriptPath ), '../Git.' + ext ) } user user@domain.com` );
     return a.ready;
   }
 }
@@ -313,7 +313,7 @@ function setupGitConfig( test )
     test.case = 'almost empty global config - only user name';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -334,7 +334,7 @@ function setupGitConfig( test )
     test.case = 'global config with field - only user name';
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -366,8 +366,8 @@ function setupGitConfig( test )
   {
     test.case = 'almost empty global config - without user name and email';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'user.name=user' ), 1 );
-    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'user.name=user' ), 0 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 0 );
     test.identical( _.strCount( op.output, 'core.autocrlf=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.ignorecase=false' ), 1 );
     test.identical( _.strCount( op.output, 'core.filemode=false' ), 1 );
@@ -483,11 +483,6 @@ function installNvmPosix( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '=> Downloading nvm from git to' ), 1 );
     test.identical( _.strCount( op.output, '=> Compressing and cleaning up git repository' ), 1 );
-    if( process.platform !== 'darwin' )
-    {
-      test.identical( _.strCount( op.output, '=> Appending nvm source string to' ), 1 );
-      test.identical( _.strCount( op.output, '=> Appending bash_completion source string to' ), 1 );
-    }
     test.identical( _.strCount( op.output, 'Installing latest LTS version' ), 1 );
     return null;
   });
@@ -542,10 +537,7 @@ function installNvmWindows( test )
 
   /* install nvm and njs only in test container */
   if( process.platform !== 'win32' || !_.process.insideTestContainer() )
-  {
-    test.true( true );
-    return;
-  }
+  return test.true( true );
 
   const scriptPath = a.path.join( __dirname, `../../../../step/install/Nvm.bat` );
 
@@ -622,13 +614,57 @@ function installNvmWindows( test )
 
 installNvmWindows.timeOut = 300000;
 
+//
+
+function setupNjsEnv( test )
+{
+  const a = test.assetFor( 'basic' );
+
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  const ext = process.platform === 'win32' ? 'bat' : 'sh';
+  const scriptPath = a.path.join( __dirname, `../../../../step/setup/NjsEnv.${ ext }` );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+
+  /* - */
+
+  const njsVersion = _.number.from( process.versions.node.split( '.' )[ 0 ] );
+  if( njsVersion < 14 )
+  {
+    a.shellNonThrowing( scriptPath );
+    a.ready.then( ( op ) =>
+    {
+      test.notIdentical( op.exitCode, 0 );
+      test.identical( _.strCount( op.output, 'Please, install NodeJs v14 or higher.' ), 1 );
+      return null;
+    });
+  }
+  else
+  {
+    a.shellNonThrowing( scriptPath );
+    a.ready.then( ( op ) =>
+    {
+      test.identical( op.exitCode, 0 );
+      test.identical( _.strCount( op.output, 'Please, install NodeJs v14 or higher.' ), 0 );
+      test.identical( _.strCount( op.output, 'Your environment is ready for development of native nodejs modules.' ), 1 );
+      return null;
+    });
+  }
+
+  /* - */
+
+  return a.ready;
+}
+
+setupNjsEnv.timeOut = 300000;
+
 // --
 // declaration
 // --
 
 const Proto =
 {
-
   name : 'Setup.test.s',
   silencing : 1,
   enabled : 1,
@@ -646,16 +682,14 @@ const Proto =
 
   tests :
   {
-
     backupGitConfig,
     cleanGitConfig,
     setupGitConfig,
     installNvmPosix,
     installNvmWindows,
-
-  }
-
-}
+    setupNjsEnv,
+  },
+};
 
 const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )

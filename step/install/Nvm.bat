@@ -3,7 +3,7 @@
 where choco.exe
 if %ERRORLEVEL% NEQ 0 (
   echo Please, install the utility Chocolatey and then run the script
-  echo Run next command in administrative shell to install utility :
+  echo Follow the instructions in https://chocolatey.org/install
   exit /b
 )
 
