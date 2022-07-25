@@ -1,6 +1,6 @@
 {
   "name": "wsetup",
-  "version": "0.0.83",
+  "version": "0.0.84",
   "engine": "node >= 10.0.0",
   "description": "Utilities to setup development environment",
   "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
